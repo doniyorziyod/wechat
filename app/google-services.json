@@ -1,0 +1,77 @@
+{
+  "project_info": {
+    "project_number": "131128365063",
+    "firebase_url": "https://lesson1-e24d0-default-rtdb.firebaseio.com",
+    "project_id": "lesson1-e24d0",
+    "storage_bucket": "lesson1-e24d0.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:131128365063:android:7706996521ff281d519aa2",
+        "android_client_info": {
+          "package_name": "doniyor.wechat"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "131128365063-8rd7slnp6voon48dna6utqncgtvfjn01.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBDpoodtmwhw8PAFfoqocGlJTM7pXaM8Jc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "131128365063-8rd7slnp6voon48dna6utqncgtvfjn01.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:131128365063:android:98f1880ff6f5cf76519aa2",
+        "android_client_info": {
+          "package_name": "uz.ictschool.chat"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "131128365063-lsqvv43qi5tejqcr59hmkfrgdhnf6mrf.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "uz.ictschool.chat",
+            "certificate_hash": "e5800be502693ca96af8798864d0cf231ec6f62a"
+          }
+        },
+        {
+          "client_id": "131128365063-8rd7slnp6voon48dna6utqncgtvfjn01.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBDpoodtmwhw8PAFfoqocGlJTM7pXaM8Jc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "131128365063-8rd7slnp6voon48dna6utqncgtvfjn01.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
