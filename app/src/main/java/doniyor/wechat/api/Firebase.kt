@@ -139,12 +139,10 @@ class Firebase private constructor() {
             }
         }
 
-        fun updateUser(key: String, user: User, context: Context) {
-            users.child(key).child("username").setValue(user.username)
-            users.child(key).child("fullName").setValue(user.fullName)
-            users.child(key).child("password").setValue(user.password)
-            users.child(key).child("image").setValue(user.image)
-            Toast.makeText(context, "Account data updated", Toast.LENGTH_SHORT).show()
+        fun updatePassword(context: Context, password: String, callback: (Boolean) -> Unit) {
+            val key = SharedHelper.getInstance(context).getKey()
+            users.child(key).child("password").setValue(password)
+            callback(true)
         }
 
         fun getUser(key: String, callback: (User) -> Unit) {

@@ -10,6 +10,7 @@ import doniyor.wechat.sceens.ChatScreen
 import doniyor.wechat.sceens.DetailsScreen
 import doniyor.wechat.sceens.HomeScreen
 import doniyor.wechat.sceens.LoginScreen
+import doniyor.wechat.sceens.ProfileScreen
 import doniyor.wechat.sceens.RegisterScreen
 import doniyor.wechat.sceens.SplashScreen
 
@@ -41,6 +42,9 @@ fun NavGraph (){
             navArgument("key"){type= NavType.StringType}
         )) {
             DetailsScreen(navController = navController, it.arguments?.getString("key")!!)
+        }
+        composable(route = Screens.Profile.route) {
+            ProfileScreen(navController = navController)
         }
     }
 }

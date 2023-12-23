@@ -181,8 +181,7 @@ fun TopBar(search: MutableState<String>, navController: NavController) {
         )
         Button(
             onClick = {
-                SharedHelper.getInstance(context).logOut()
-                navController.navigate(Screens.Login.route)
+                      navController.navigate(Screens.Profile.route)
             }, modifier = Modifier
                 .size(55.dp),
             colors = ButtonDefaults.buttonColors(containerColor = Green)
