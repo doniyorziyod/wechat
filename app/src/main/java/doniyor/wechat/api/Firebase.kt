@@ -158,19 +158,6 @@ class Firebase private constructor() {
             })
         }
 
-        fun deleteMessage(message: Message) {
-            val user1 = message.from!!
-            val user2 = message.to!!
-            val key = message.key!!
-            users.child(user1).child("messages").child(key).removeValue()
-            users.child(user2).child("messages").child(key).removeValue()
-        }
-
-        fun deleteChat(key1: String, key2: String) {
-            deleteAll(key1, key2)
-            deleteAll(key2, key1)
-        }
-
         private fun deleteAll(key1: String, key2: String) {
             val messages = users.child(key1).child("messages")
             messages.addListenerForSingleValueEvent(object : ValueEventListener {
