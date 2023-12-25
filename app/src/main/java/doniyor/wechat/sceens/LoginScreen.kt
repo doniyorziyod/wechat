@@ -38,7 +38,7 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import doniyor.wechat.R
 import doniyor.wechat.api.Firebase
-import doniyor.wechat.api.SharedHelper
+import doniyor.wechat.api.SharedPreference
 import doniyor.wechat.navigation.Screens
 import doniyor.wechat.ui.theme.Background
 import doniyor.wechat.ui.theme.Primary
@@ -109,7 +109,7 @@ fun LoginScreen(navController: NavController) {
         Button(
             onClick = {
                 if (username.value.isNotEmpty() && password.value.length > 7) {
-                    Firebase.logIn(username.value, password.value) {
+                    Firebase.signIn(username.value, password.value) {
                         if (it == null) {
                             Toast.makeText(
                                 context,
@@ -117,7 +117,7 @@ fun LoginScreen(navController: NavController) {
                                 Toast.LENGTH_SHORT
                             ).show()
                         } else {
-                            SharedHelper.getInstance(context).saveKey(it)
+                            SharedPreference.getInstance(context).saveKey(it)
                             navController.navigate(Screens.Home.route)
                         }
                     }

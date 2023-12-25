@@ -1,9 +1,9 @@
 package doniyor.wechat.sceens
 
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -18,10 +18,9 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.AccountCircle
-import androidx.compose.material.icons.rounded.ExitToApp
-import androidx.compose.material3.Button
-import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.FloatingActionButton
+import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
@@ -37,7 +36,6 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Color.Companion.Black
 import androidx.compose.ui.graphics.Color.Companion.Gray
 import androidx.compose.ui.graphics.Color.Companion.Green
-import androidx.compose.ui.graphics.Color.Companion.Red
 import androidx.compose.ui.graphics.Color.Companion.White
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.style.TextAlign
@@ -47,7 +45,6 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import doniyor.wechat.api.Firebase
-import doniyor.wechat.api.SharedHelper
 import doniyor.wechat.model.User
 import doniyor.wechat.navigation.Screens
 import doniyor.wechat.ui.theme.Secondary
@@ -59,12 +56,9 @@ fun HomeView() {
     HomeScreen(navController = rememberNavController())
 }
 
-
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun HomeScreen(navController: NavController) {
     val context = LocalContext.current
-    val currentUserKey = SharedHelper.getInstance(context).getKey()
     val chats = remember { mutableStateListOf<User>() }
     val users = remember { mutableStateListOf<User>() }
 
@@ -73,7 +67,7 @@ fun HomeScreen(navController: NavController) {
     Firebase.getChats(search.value, context) { it1 ->
         chats.clear()
         chats.addAll(it1)
-        Firebase.getAllUsers(context, search.value) { it2 ->
+        Firebase.getUsers(context, search.value) { it2 ->
             users.clear()
             users.addAll(it2)
             users.removeAll(chats)
@@ -99,6 +93,18 @@ fun HomeScreen(navController: NavController) {
             if (users.isNotEmpty()) {
                 Chats(navController, users)
             }
+        }
+    }
+    Box(modifier = Modifier.fillMaxSize().padding(16.dp)) {
+        FloatingActionButton(onClick = {
+            navController.navigate(Screens.Profile.route)
+        }, modifier = Modifier.size(70.dp).align(Alignment.BottomEnd).padding(7.dp)) {
+            Icon(
+                Icons.Rounded.AccountCircle,
+                contentDescription = "",
+                modifier = Modifier.fillMaxSize(),
+                tint = Green
+            )
         }
     }
 }
@@ -128,7 +134,7 @@ fun LazyItem(chat: User, navController: NavController) {
                 .background(Text2, CircleShape)
                 .size(50.dp)
                 .padding(5.dp)
-                .clickable { navController.navigate("details_screen/${chat.key}")  },
+                .clickable { navController.navigate("details_screen/${chat.key}") },
             fontSize = 28.sp,
             textAlign = TextAlign.Center,
             color = White
@@ -157,7 +163,6 @@ fun LazyItem(chat: User, navController: NavController) {
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun TopBar(search: MutableState<String>, navController: NavController) {
-    val context = LocalContext.current
     Row(
         Modifier
             .fillMaxWidth()
@@ -172,26 +177,13 @@ fun TopBar(search: MutableState<String>, navController: NavController) {
             value = search.value,
             onValueChange = { search.value = it },
             colors = TextFieldDefaults.textFieldColors(
-                textColor = Color.Black,
+                textColor = Black,
                 containerColor = White,
                 focusedIndicatorColor = Color.Transparent,
                 unfocusedIndicatorColor = Color.Transparent,
             ),
             placeholder = { Text("Search") },
         )
-        Button(
-            onClick = {
-                      navController.navigate(Screens.Profile.route)
-            }, modifier = Modifier
-                .size(55.dp),
-            colors = ButtonDefaults.buttonColors(containerColor = Green)
-        ) {
-            Image(
-                Icons.Rounded.AccountCircle,
-                contentDescription = "",
-                modifier = Modifier.fillMaxSize()
-            )
-        }
     }
 }
 

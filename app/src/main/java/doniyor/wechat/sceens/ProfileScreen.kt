@@ -38,8 +38,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import doniyor.wechat.api.Firebase
-import doniyor.wechat.api.SharedHelper
-import doniyor.wechat.navigation.Screens
+import doniyor.wechat.api.SharedPreference
 import doniyor.wechat.ui.theme.Black20
 import doniyor.wechat.ui.theme.Primary
 import doniyor.wechat.ui.theme.Secondary
@@ -146,7 +145,7 @@ fun ProfileScreen(navController: NavController) {
         text = "Do you really want to log out?",
         confirmButtonColor = Color.Red
     ) {
-        SharedHelper.getInstance(context).logOut()
+        SharedPreference.getInstance(context).logOut()
         navController.navigate("login_screen") {
             popUpTo(navController.graph.id) {
                 inclusive = true

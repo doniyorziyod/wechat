@@ -44,7 +44,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import doniyor.wechat.api.Firebase
-import doniyor.wechat.api.SharedHelper
+import doniyor.wechat.api.SharedPreference
 import doniyor.wechat.model.Message
 import doniyor.wechat.model.User
 import doniyor.wechat.navigation.Screens
@@ -85,7 +85,7 @@ fun ChatScreen(navController: NavController, key:String){
 fun MessageItem(
     message: Message
 ) {
-    val currentUserKey = SharedHelper.getInstance(LocalContext.current).getKey()
+    val currentUserKey = SharedPreference.getInstance(LocalContext.current).getKey()
     val fromMe = message.from == currentUserKey
     Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
         if (fromMe) Spacer(modifier = Modifier.width(100.dp))
@@ -158,7 +158,7 @@ fun EnterMessage(
         trailingIcon = {
             IconButton(
                 onClick = {
-                    Firebase.writeMessage(message.value.trim(), context, userKey)
+                    Firebase.setMessages(message.value.trim(), context, userKey)
                     message.value = ""
                     focusManager.clearFocus()
                 },

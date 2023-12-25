@@ -15,7 +15,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import doniyor.wechat.R
-import doniyor.wechat.api.SharedHelper
+import doniyor.wechat.api.SharedPreference
 import doniyor.wechat.navigation.Screens
 import doniyor.wechat.ui.theme.Primary
 import kotlinx.coroutines.delay
@@ -26,7 +26,7 @@ fun SplashScreen(navController: NavHostController) {
     val context = LocalContext.current
     LaunchedEffect(Unit) {
         delay(3000)
-        if (SharedHelper.getInstance(context).getKey()
+        if (SharedPreference.getInstance(context).getKey()
                 .isEmpty()
         ) navController.navigate(Screens.Login.route)
         else navController.navigate(Screens.Home.route)

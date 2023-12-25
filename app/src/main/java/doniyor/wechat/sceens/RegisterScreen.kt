@@ -162,7 +162,7 @@ fun RegisterScreen(navController: NavController) {
                         usernameErrorText.value = errorText4
                     } else {
                         usernameError.value = false
-                        Firebase.usernameAvailable(username.value) { usernameExists ->
+                        Firebase.checkUsername(username.value) { usernameExists ->
                             if (!usernameExists) {
                                 usernameError.value = true
                                 usernameErrorText.value = errorText3
@@ -253,7 +253,7 @@ fun RegisterScreen(navController: NavController) {
             enabled = username.value.isNotEmpty() && fullName.value.isNotEmpty() && password.value.isNotEmpty() && !usernameError.value && !fullNameError.value && !passwordError.value,
             onClick = {
                 val user = User(username.value, password.value, fullName.value, "", "")
-                Firebase.register(user, context) { success ->
+                Firebase.signUp(user, context) { success ->
                     if (success) {
                         Toast.makeText(context, "Successfully signed up", Toast.LENGTH_SHORT).show()
                         navController.navigate(Screens.Home.route) {

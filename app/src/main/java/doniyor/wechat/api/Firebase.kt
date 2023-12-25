@@ -2,7 +2,6 @@ package doniyor.wechat.api
 
 import android.content.Context
 import android.util.Log
-import android.widget.Toast
 import com.google.firebase.Firebase
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
@@ -18,15 +17,15 @@ class Firebase private constructor() {
     companion object {
         private val users = FirebaseDatabase.getInstance().reference.child("users")
 
-        fun register(user: User, context: Context, callback: (Boolean) -> Unit) {
+        fun signUp(user: User, context: Context, callback: (Boolean) -> Unit) {
             val key = users.push().key.toString()
             user.key = key
             users.child(key).setValue(user)
-            SharedHelper.getInstance(context).saveKey(key)
+            SharedPreference.getInstance(context).saveKey(key)
             callback(true)
         }
 
-        fun usernameAvailable(username: String, callback: (Boolean) -> Unit) {
+        fun checkUsername(username: String, callback: (Boolean) -> Unit) {
             users.addListenerForSingleValueEvent(object : ValueEventListener {
                 override fun onDataChange(snapshot: DataSnapshot) {
                     val u = snapshot.children
@@ -45,7 +44,7 @@ class Firebase private constructor() {
             })
         }
 
-        fun logIn(username: String, password: String, callback: (key: String?) -> Unit) {
+        fun signIn(username: String, password: String, callback: (key: String?) -> Unit) {
             users.addListenerForSingleValueEvent(object : ValueEventListener {
                 override fun onDataChange(snapshot: DataSnapshot) {
                     val users = snapshot.children
@@ -66,10 +65,10 @@ class Firebase private constructor() {
             })
         }
 
-        fun writeMessage(text: String, context: Context, to: String) {
+        fun setMessages(text: String, context: Context, to: String) {
             val sdf = SimpleDateFormat("dd/M/yyyy hh:mm:ss")
             val currentDate = sdf.format(Date())
-            val currentUser = SharedHelper.getInstance(context).getKey()!!
+            val currentUser = SharedPreference.getInstance(context).getKey()!!
 
             val key = Firebase.database.reference.push().key.toString()
             val message = Message(to, currentUser, text, currentDate, key)
@@ -82,7 +81,7 @@ class Firebase private constructor() {
             userKey: String,
             callback: (List<Message>) -> Unit
         ) {
-            val key = SharedHelper.getInstance(context).getKey()!!
+            val key = SharedPreference.getInstance(context).getKey()!!
             users.child(key).child("messages")
                 .addValueEventListener(object : ValueEventListener {
                     override fun onDataChange(snapshot: DataSnapshot) {
@@ -106,14 +105,14 @@ class Firebase private constructor() {
         }
 
 
-        fun getAllUsers(context: Context, searchKey: String, callback: (List<User>) -> Unit) {
+        fun getUsers(context: Context, searchKey: String, callback: (List<User>) -> Unit) {
             users.addValueEventListener(object : ValueEventListener {
                 override fun onDataChange(snapshot: DataSnapshot) {
                     val u = snapshot.children
                     val users = mutableListOf<User>()
                     u.forEach {
                         val user = it.getValue(User::class.java)!!
-                        if (user.key != SharedHelper.getInstance(context).getKey()) {
+                        if (user.key != SharedPreference.getInstance(context).getKey()) {
                             if (searchKey.isEmpty()) users.add(user)
                             else if (((user.fullName + user.username).lowercase()).contains(
                                     searchKey.lowercase()
@@ -133,7 +132,7 @@ class Firebase private constructor() {
         }
 
         fun updatePassword(context: Context, password: String, callback: (Boolean) -> Unit) {
-            val key = SharedHelper.getInstance(context).getKey()
+            val key = SharedPreference.getInstance(context).getKey()
             users.child(key).child("password").setValue(password)
             callback(true)
         }
@@ -156,7 +155,7 @@ class Firebase private constructor() {
             context: Context,
             callback: (contacts: List<User>) -> Unit
         ) {
-            val currentUserKey = SharedHelper.getInstance(context).getKey()
+            val currentUserKey = SharedPreference.getInstance(context).getKey()
             val mes = users.child(currentUserKey).child("messages")
             mes.addValueEventListener(object : ValueEventListener {
                 override fun onDataChange(snapshot: DataSnapshot) {

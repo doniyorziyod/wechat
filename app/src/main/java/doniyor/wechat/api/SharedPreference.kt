@@ -3,14 +3,14 @@ package doniyor.wechat.api
 import android.content.Context
 import android.content.SharedPreferences
 
-class SharedHelper private constructor(context: Context){
+class SharedPreference private constructor(context: Context){
     private val shared: SharedPreferences = context.getSharedPreferences("app_db", Context.MODE_PRIVATE)
     private val edit: SharedPreferences.Editor = shared.edit()
 
     companion object{
-        private var instance : SharedHelper? = null
-        fun getInstance(context: Context): SharedHelper {
-            if (instance == null) instance = SharedHelper(context)
+        private var instance : SharedPreference? = null
+        fun getInstance(context: Context): SharedPreference {
+            if (instance == null) instance = SharedPreference(context)
             return instance!!
         }
     }
