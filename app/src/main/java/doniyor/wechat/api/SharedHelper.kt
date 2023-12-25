@@ -24,5 +24,4 @@ class SharedHelper private constructor(context: Context){
     fun logOut() {
         edit.remove("key").commit()
     }
-
 }

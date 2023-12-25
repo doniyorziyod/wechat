@@ -16,7 +16,6 @@ import java.util.Date
 
 class Firebase private constructor() {
     companion object {
-
         private val users = FirebaseDatabase.getInstance().reference.child("users")
 
         fun register(user: User, context: Context, callback: (Boolean) -> Unit) {
@@ -133,12 +132,6 @@ class Firebase private constructor() {
             })
         }
 
-        private fun getCurrentUser(context: Context, callback: (User) -> Unit) {
-            getUser(SharedHelper.getInstance(context).getKey()) {
-                callback(it)
-            }
-        }
-
         fun updatePassword(context: Context, password: String, callback: (Boolean) -> Unit) {
             val key = SharedHelper.getInstance(context).getKey()
             users.child(key).child("password").setValue(password)
@@ -157,27 +150,6 @@ class Firebase private constructor() {
                 }
             })
         }
-
-        private fun deleteAll(key1: String, key2: String) {
-            val messages = users.child(key1).child("messages")
-            messages.addListenerForSingleValueEvent(object : ValueEventListener {
-                override fun onDataChange(snapshot: DataSnapshot) {
-                    val u = snapshot.children
-                    u.forEach {
-                        val message = it.getValue(Message::class.java)!!
-                        if ((message.from == key1 && message.to == key2) || (message.from == key2 && message.to == key1)) messages.child(
-                            message.key!!
-                        ).removeValue()
-                    }
-                }
-
-                override fun onCancelled(error: DatabaseError) {
-                    Log.d("TAG", error.toString())
-                }
-
-            })
-        }
-
 
         fun getChats(
             searchKey: String,
@@ -217,7 +189,6 @@ class Firebase private constructor() {
                 override fun onCancelled(error: DatabaseError) {
                     Log.d("TAG", "$error")
                 }
-
             })
         }
     }

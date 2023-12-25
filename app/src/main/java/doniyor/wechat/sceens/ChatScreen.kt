@@ -73,7 +73,7 @@ fun ChatScreen(navController: NavController, key:String){
                 .fillMaxWidth()
         ) {
             items(messages.size) { index ->
-                MessageItem(messages[index], index)
+                MessageItem(messages[index])
             }
         }
 
@@ -83,8 +83,7 @@ fun ChatScreen(navController: NavController, key:String){
 
 @Composable
 fun MessageItem(
-    message: Message,
-    index: Int
+    message: Message
 ) {
     val currentUserKey = SharedHelper.getInstance(LocalContext.current).getKey()
     val fromMe = message.from == currentUserKey
@@ -109,7 +108,7 @@ fun MessageItem(
 
 @Composable
 fun ChatTopBar(users: MutableState<User>, navController: NavController) {
-    val backDispatcher = LocalOnBackPressedDispatcherOwner.current?.onBackPressedDispatcher
+    LocalOnBackPressedDispatcherOwner.current?.onBackPressedDispatcher
 
     Row (modifier = Modifier.padding(12.dp),
         horizontalArrangement = Arrangement.SpaceBetween){
